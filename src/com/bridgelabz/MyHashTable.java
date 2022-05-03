@@ -29,7 +29,6 @@ public class MyHashTable<K, V> {
 			this.append(myNode);
 		} else
 			myNode.setValue(value);
-
 	}
 
 	private void append(MyMapNode<K, V> myNode) {

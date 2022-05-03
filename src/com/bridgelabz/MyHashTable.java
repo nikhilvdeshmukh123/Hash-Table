@@ -4,34 +4,17 @@ public class MyHashTable<K, V> {
 	MyMapNode head;
 	MyMapNode tail;
 
-	public V get(K word) {
-		MyMapNode<K, V> myNode = searchNode(word);
-		return (myNode == null) ? null : myNode.getValue();
-	}
-
-	public MyMapNode<K, V> searchNode(K word) {
-		MyMapNode<K, V> currentNode = head;
-		int position = 0;
-		while (currentNode != null) {
-			position++;
-			if (currentNode.getKey().equals(word)) {
-				return currentNode;
-			}
-			currentNode = currentNode.getNext();
-		}
-		return currentNode;
-	}
-
 	public void add(K key, V value) {
-		MyMapNode<K, V> myNode = searchNode(key);
+		MyMapNode<K, V> myNode = (MyMapNode<K, V>) searchNode(key);
 		if (myNode == null) {
 			myNode = new MyMapNode<>(key, value);
 			this.append(myNode);
-		} else
+		} else {
 			myNode.setValue(value);
+		}
 	}
 
-	private void append(MyMapNode<K, V> myNode) {
+	public void append(MyMapNode<K, V> myNode) {
 		if (this.head == null)
 			this.head = myNode;
 		if (this.tail == null)
@@ -42,9 +25,45 @@ public class MyHashTable<K, V> {
 		}
 	}
 
+	public MyMapNode<K, V> searchNode(K data) {
+		MyMapNode currentNode = head;
+		int position = 0;
+		while (currentNode != null) {
+			position++;
+			if (currentNode.getKey().equals(data)) {
+				return currentNode;
+			}
+			currentNode = currentNode.getNext();
+		}
+		return currentNode;
+	}
+
+	public V get(K word) {
+		MyMapNode<K, V> myMapNode = searchNode(word);
+		return (myMapNode == null) ? null : myMapNode.getValue();
+	}
+
+	public void remove(K word) {
+		MyMapNode currentNode = head;
+		MyMapNode previousNode = null;
+		while (currentNode != null && currentNode.getKey().equals(word)) {
+			head = currentNode.getNext();
+			return;
+		}
+		while (currentNode != null && !(currentNode.getKey().equals(word))) {
+			previousNode = currentNode;
+			currentNode = currentNode.getNext();
+		}
+		if (currentNode != null) {
+			previousNode.next = currentNode.next;
+		}
+		if (currentNode == null)
+			System.out.println("Word not found!");
+	}
+
 	@Override
 	public String toString() {
-		return "MyLinkedListNodes{" + head + '}';
+		return "Linked List Nodes { " + head + " }";
 	}
 
 	public void printNodes() {
